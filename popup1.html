@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Text-to-Speech</title>
+    <style>
+      body {
+        background: url("bg05.jpg") center/cover no-repeat fixed;
+        text-shadow: 3px 2px rgb(153, 73, 73);
+        text-align: center;
+        font-size: 30px;
+      }
+      button {
+        width: 200px;
+        padding: 15px 0;
+        text-align: center; 
+        margin: 20px 10px; 
+        border-radius: 25px;
+        font-weight: bold;
+        border: 2px solid #009688;
+        color: white;
+        cursor: pointer;
+        background-color: transparent;
+        position: absolute;
+        overflow: hidden;
+      }
+      span {
+        background: #009688;
+        height: 100%;
+        width: 0;
+        border-radius: 25px;
+        position: relative;
+        left: 0;
+        bottom: 0;
+        z-index: -1;
+        transition: 0.5s;
+      }
+      button:hover span {
+        width: 100%;
+      }
+      button:hover {
+        border: none;
+      }
+      .head {
+        color: rgb(255, 255, 255);
+        text-align: center;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .text_ip {
+        display: block;
+        margin-left: 590px;
+        margin-bottom: 20px;
+        font-size: 25px;
+      }
+    </style>
+    </head>
+    <body>
+        <h1 class="head">Text to Speech</h1>
+        <!-- <input type="text" id="textInput" placeholder="Enter text to speak" /> -->
+        <textarea class = "text_ip"id="textInput" name="Enter text to speak" rows="10" cols="50">
+            </textarea>
+        <button id="speakButton"><span></span>Speak Text</button>
+
+    <script>
+      if ("speechSynthesis" in window) {
+        const speechSynthesis = window.speechSynthesis;
+        const textInput = document.getElementById("textInput");
+
+        function speakText() {
+          const userText = textInput.value;
+          if (userText) {
+            const textToSpeak = new SpeechSynthesisUtterance(userText);
+
+            textToSpeak.onend = function (event) {
+              console.log("Speech synthesis finished.");
+            };
+            speechSynthesis.speak(textToSpeak);
+          }
+        }
+        const speakButton = document.getElementById("speakButton");
+        speakButton.addEventListener("click", speakText);
+      } else {
+        console.error("Speech synthesis is not supported in this browser.");
+      }
+    </script>
+  </body>
+</html>

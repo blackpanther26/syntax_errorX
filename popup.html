@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Speech to Text</title>
+    <style>
+      body {
+        background: url("bg04.jpg") center/cover no-repeat fixed;
+        text-align: center;
+        font-size: 30px;
+        font-family: Cambria, Cochin, Georgia, Times, "Times New Roman";
+        color: white;
+      }
+      button {
+        width: 200px;
+        padding: 15px 0;
+        text-align: center;
+        margin: 20px 10px;
+        border-radius: 25px;
+        font-weight: bold;
+        border: 2px solid #009688;
+        color: white;
+        cursor: pointer;
+        background-color: transparent;
+        position: relative;
+        overflow: hidden;
+      }
+      span {
+        background: #009688;
+        height: 100%;
+        width: 0;
+        border-radius: 25px;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: -1;
+        transition: 0.5s;
+      }
+      button:hover span {
+        width: 100%;
+      }
+      button:hover {
+        border: none;
+      }
+      .head {
+        color: rgb(255, 255, 255);
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="head">Speech to Text</h1>
+    <button id="startButton" class="button">
+      <span></span>Start Listening
+    </button>
+    <p id="output"></p>
+    <script>
+      const startButton = document.getElementById("startButton");
+      const output = document.getElementById("output");
+
+      startButton.addEventListener("click", () => {
+        const recognition =
+          new webkitSpeechRecognition() || SpeechRecognition();
+
+        recognition.lang = "en-US";
+        recognition.interimResults = true;
+
+        recognition.onresult = (event) => {
+          const result = event.results[event.results.length - 1];
+          const text = result[0].transcript;
+
+          output.textContent = text;
+        };
+
+        recognition.onend = () => {
+          startButton.textContent = "Start Listening";
+        };
+
+        recognition.start();
+        startButton.textContent = "Stop Listening";
+      });
+    </script>
+  </body>
+</html>
